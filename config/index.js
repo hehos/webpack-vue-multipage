@@ -2,6 +2,8 @@
 var path = require('path')
 
 module.exports = {
+  entryPath: path.resolve(__dirname, '../src/entries/**/*.js'),
+  tplPath: './src/templates/**/*.ejs',
   build: {
     env: require('./prod.env'),
     index: path.resolve(__dirname, '../dist/index.html'),

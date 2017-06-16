@@ -1,4 +1,5 @@
 var path = require('path')
+var glob = require('glob');
 var utils = require('./utils')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
@@ -8,9 +9,7 @@ function resolve (dir) {
 }
 
 module.exports = {
-  entry: {
-    app: './src/main.js'
-  },
+  entry: utils.getEntries(),
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
@@ -44,6 +43,10 @@ module.exports = {
           limit: 10000,
           name: utils.assetsPath('img/[name].[hash:7].[ext]')
         }
+      },
+      { //解析 .tpl
+        test: /\.ejs$/,
+        loader: 'ejs-loader'
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
