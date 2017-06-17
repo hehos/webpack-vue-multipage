@@ -77,9 +77,19 @@ function getFiles(filePath) {
     filesJson = {};
 
   files.forEach(function(filepath) {
-    // 取倒数第二层(view下面的文件夹)做包名
-    var split = filepath.split('/');
-    var name = split[split.length - 1].split('.')[0];
+
+    // 去 entries 下的路径 + 文件名作为最终的 name 值
+    var name = '';
+    var namePath =
+      filepath.substring(filepath.indexOf('src/') + 4,
+        filepath.indexOf('.js') & filepath.indexOf('.ejs'))
+        .split('/');
+    namePath = namePath.slice(1);
+
+    namePath.forEach(function (path) {
+      name += path + '-';
+    });
+    name = name.substring(0, name.length - 1);
 
     filesJson[name] = filepath;
   });

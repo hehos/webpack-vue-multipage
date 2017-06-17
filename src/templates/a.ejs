@@ -11,6 +11,14 @@
 <div style="color: red;">
   模板 a aa
 </div>
+<ul>
+  <% for(var i = 0; i < 10; i++) { %>
+  <li>item<%= i %></li>
+  <% } %>
+</ul>
+
+
+
 
 <%= require('../components/footer.ejs')() %>
 

@@ -44,9 +44,12 @@ module.exports = {
           name: utils.assetsPath('img/[name].[hash:7].[ext]')
         }
       },
-      { //解析 .tpl
+      { //解析 .ejs
         test: /\.ejs$/,
-        loader: 'ejs-loader'
+        loader: 'ejs-loader',
+        options: {
+          variable: 'data'
+        }
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
