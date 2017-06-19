@@ -72,24 +72,47 @@ exports.styleLoaders = function (options) {
   return output
 }
 
+/**
+ *
+ * 批量获取 { 文件名：文件路径 }
+ *
+ * @param filePath
+ * @returns {}
+ *
+ * 生成 entries 和 templates下 { 文件名：文件路径 }
+ *
+ * 文件名生成规则：
+ * 1，一级文件 =》 { 文件名：路径 }
+ * 2，子目录下的文件
+ *  2.1，index文件名 { 目录名：路径 }
+ *  2.2，非index文件名 { 目录名 + 文件名：路径 }
+ *
+ */
 function getFiles(filePath) {
   var files = glob.sync(filePath),
     filesJson = {};
 
   files.forEach(function(filepath) {
 
-    // 去 entries 下的路径 + 文件名作为最终的 name 值
     var name = '';
     var namePath =
-      filepath.substring(filepath.indexOf('src/') + 4,
-        filepath.indexOf('.js') & filepath.indexOf('.ejs'))
+      filepath.substring(filepath.search('src/') + 4,
+        filepath.search(/\.(\w)+/))
         .split('/');
     namePath = namePath.slice(1);
 
-    namePath.forEach(function (path) {
-      name += path + '-';
-    });
-    name = name.substring(0, name.length - 1);
+    if(namePath.length === 1) {
+      name = namePath[0];
+    } else {
+      namePath.forEach(function (path) {
+        name += path + '-';
+      });
+      if(name.search('-index-') !== -1) {
+        name = name.replace('-index-', '');
+      } else {
+        name = name.substring(0, name.length - 1);
+      }
+    }
 
     filesJson[name] = filepath;
   });
@@ -99,16 +122,27 @@ function getFiles(filePath) {
 
 // 批量获取多入口文件
 exports.getEntries = function () {
-  return getFiles(config.entryPath);;
+  console.log(getFiles(config.entryPath));
+  return getFiles(config.entryPath);
 }
 
 // 批量生产 html-plugin 配置
 exports.htmlPlugins = function () {
   var htmlPlugins = getFiles(config.tplPath);
+  var entries = getFiles(config.entryPath);
+  console.log(htmlPlugins);
   var plugins = [];
   Object.keys(htmlPlugins).forEach(function(name) {
-    // 每个页面生成一个entry，如果需要HotUpdate，在这里修改entry
-    // webpackConfig.entry[name] = entries[name];
+    var chunks = [];
+    if(process.env.NODE_ENV === 'production') {
+      chunks = ['vendor', 'manifest'];
+    }
+    // 允许多个模板文件对应同一入口文件
+    Object.keys(entries).forEach(function (name2) {
+      if(name2 === name || (name2 !== name && name.search(name2) !== -1)) {
+        chunks.push(name2);
+      }
+    })
 
     // 每个页面生成一个html
     var plugin = new HtmlWebpackPlugin({
@@ -120,7 +154,15 @@ exports.htmlPlugins = function () {
       inject: true,
       // 每个html引用的js模块，也可以在这里加上vendor等公用模块
       // chunks: ['manifest', 'vendor', name]
-      chunks: [name]
+      chunks: chunks,
+      // 发布模式打包
+      minify: process.env.NODE_ENV === 'production'
+        && config.build.htmlMinify
+        ? {
+          removeComments: true,
+          collapseWhitespace: true,
+          removeAttributeQuotes: true
+        } : false
     });
     plugins.push(plugin);
   })
