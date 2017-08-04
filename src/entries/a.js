@@ -3,6 +3,6 @@
  */
 import '../css/a.css';
 
-import './comm'
+// import './comm'
 
 console.log('aaaa')

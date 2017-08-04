@@ -84,7 +84,7 @@ exports.styleLoaders = function (options) {
  * 文件名生成规则：
  * 1，一级文件 =》 { 文件名：路径 }
  * 2，子目录下的文件
- *  2.1，index文件名 { 目录名：路径 }
+ *  2.1，文件名为index或子目录名 { 目录名：路径 }
  *  2.2，非index文件名 { 目录名 + 文件名：路径 }
  *
  */
@@ -95,24 +95,24 @@ function getFiles(filePath) {
   files.forEach(function(filepath) {
 
     var name = '';
-    var namePath =
+
+    // 截取起始位置'src/' 后第一个字符下标，结束位置'.*'起始位置下标的字符串。
+    var nameAry =
       filepath.substring(filepath.search('src/') + 4,
         filepath.search(/\.(\w)+/))
         .split('/');
-    namePath = namePath.slice(1);
+    nameAry = nameAry.slice(1); // 去掉第一个元素（'entries'或'templates'字符串）
+    let len = nameAry.length;
 
-    if(namePath.length === 1) {
-      name = namePath[0];
-    } else {
-      namePath.forEach(function (path) {
-        name += path + '-';
-      });
-      if(name.search('-index-') !== -1) {
-        name = name.replace('-index-', '');
-      } else {
-        name = name.substring(0, name.length - 1);
-      }
+    if(len !== 1
+      && (nameAry[len-1] === nameAry[len-2]
+      || nameAry[len-1] === config.commFileName)) {
+      nameAry.pop();
     }
+    nameAry.forEach(function (path) {
+      name += path + '/';
+    });
+    name = name.substring(0, name.length - 1);
 
     filesJson[name] = filepath;
   });
@@ -128,39 +128,54 @@ exports.getEntries = function () {
 
 // 批量生产 html-plugin 配置
 exports.htmlPlugins = function () {
-  var htmlPlugins = getFiles(config.tplPath);
+  var tplObj = getFiles(config.tplPath);
   var entries = getFiles(config.entryPath);
-  console.log(htmlPlugins);
+  console.log(tplObj);
   var plugins = [];
-  Object.keys(htmlPlugins).forEach(function(name) {
+  Object.keys(tplObj).forEach(function(name) {
     var chunks = [];
     if(process.env.NODE_ENV === 'production') {
-      chunks = ['vendor', 'manifest'];
+      chunks = chunks.concat(['vendor', 'manifest']);
     }
+    chunks.push(config.commFileName);
     // 允许多个模板文件对应同一入口文件
     Object.keys(entries).forEach(function (name2) {
-      if(name2 === name || (name2 !== name && name.search(name2) !== -1)) {
+      if(name.includes(name2) && name2 !== name) {
         chunks.push(name2);
       }
     })
+    Object.keys(entries).forEach(function (name2) {
+      if(name2 === name) {
+        chunks.push(name2);
+      }
+    })
+
+    console.log(name + ':')
+    console.log(chunks);
 
     // 每个页面生成一个html
     var plugin = new HtmlWebpackPlugin({
       // 生成出来的html文件名
       filename: name + '.html',
       // 每个html的模版
-      template: htmlPlugins[name],
+      template: tplObj[name],
       // 自动将引用插入html
       inject: true,
       // 每个html引用的js模块，也可以在这里加上vendor等公用模块
       // chunks: ['manifest', 'vendor', name]
       chunks: chunks,
+      chunksSortMode: function (chunk1, chunk2) {
+        var order = chunks;
+        var order1 = order.indexOf(chunk1.names[0]);
+        var order2 = order.indexOf(chunk2.names[0]);
+        return order1 - order2;
+      },
       // 发布模式打包
       minify: process.env.NODE_ENV === 'production'
         && config.build.htmlMinify
         ? {
           removeComments: true,
-          collapseWhitespace: true,
+          collapseWhitespace: false,
           removeAttributeQuotes: true
         } : false
     });
