@@ -2,8 +2,9 @@
 var path = require('path')
 
 module.exports = {
-  entryPath: path.resolve(__dirname, '../src/**/!(modules)/*.js'),
-  tplPath: path.resolve(__dirname, '../src/**/!(modules)/*.ejs'),
+  entryPath: path.resolve(__dirname, '../src/entries'),
+  tplPath: path.resolve(__dirname, '../src/templates'),
+  ignore: 'modules',
   commFileName: 'comm',
   build: {
     env: require('./prod.env'),

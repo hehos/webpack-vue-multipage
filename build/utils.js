@@ -73,35 +73,38 @@ exports.styleLoaders = function (options) {
 }
 
 /**
+ * 批量获取 { 文件名：文件路径 }对应关系
  *
- * 批量获取 { 文件名：文件路径 }
+ * @param cwd       要搜索的当前工作目录
+ * @param fileType  要搜索的文件类型
+ * @param ignore    排除的目录
+ * @returns {{}}
  *
- * @param filePath
- * @returns {}
- *
- * 生成 entries 和 templates下 { 文件名：文件路径 }
+ *  * 生成 entries 和 templates下 { 文件名：文件路径 }
  *
  * 文件名生成规则：
- * 1，一级文件 =》 { 文件名：路径 }
+ * 1，一级文件，对应关系为：{ 文件名：路径 }
  * 2，子目录下的文件
- *  2.1，文件名为index或子目录名 { 目录名：路径 }
- *  2.2，非index文件名 { 目录名 + 文件名：路径 }
+ *  2.1，普通文件，对应关系为：{目录名/文件名：路径}或者{目录名/目录名(n)/文件名：路径}
+ *  2.2，为公共文件时，对应关系为：{ 目录名：路径 }或者{目录名/目录名(n)：路径}
  *
  */
-function getFiles(filePath) {
-  var files = glob.sync(filePath),
+function getFiles(cwd, fileType, ignore) {
+  // 获取符合条件的文件相对路径
+  var files = glob.sync(`**/*.${fileType}`, {
+      cwd: cwd,
+      ignore: [`${ignore}/*.${fileType}`, `**/${ignore}/*.${fileType}`]
+    }),
     filesJson = {};
 
+  console.log(files);
   files.forEach(function(filepath) {
 
     var name = '';
 
-    // 截取起始位置'src/' 后第一个字符下标，结束位置'.*'起始位置下标的字符串。
     var nameAry =
-      filepath.substring(filepath.search('src/') + 4,
-        filepath.search(/\.(\w)+/))
+      filepath.substring(0, filepath.search(/\.(\w)+/))
         .split('/');
-    nameAry = nameAry.slice(1); // 去掉第一个元素（'entries'或'templates'字符串）
     let len = nameAry.length;
 
     if(len !== 1
@@ -114,23 +117,22 @@ function getFiles(filePath) {
     });
     name = name.substring(0, name.length - 1);
 
-    filesJson[name] = filepath;
+    filesJson[name] = `${cwd}/${filepath}`;;
   });
 
+  console.log(filesJson);
   return filesJson;
 }
 
 // 批量获取多入口文件
 exports.getEntries = function () {
-  console.log(getFiles(config.entryPath));
-  return getFiles(config.entryPath);
+  return getFiles(config.entryPath, 'js', config.ignore);
 }
 
 // 批量生产 html-plugin 配置
 exports.htmlPlugins = function () {
-  var tplObj = getFiles(config.tplPath);
-  var entries = getFiles(config.entryPath);
-  console.log(tplObj);
+  var tplObj = getFiles(config.tplPath, 'ejs', config.ignore);
+  var entries = getFiles(config.entryPath, 'js', config.ignore);
   var plugins = [];
   Object.keys(tplObj).forEach(function(name) {
     var chunks = [];
