@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6810eec4-71d3-4bb5-ba2b-75c0546fb4d5" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/components/footer.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/components/header.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/css/a.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/css/subdir/index.css" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/deployment.xml" afterPath="$PROJECT_DIR$/.idea/deployment.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
@@ -25,19 +22,19 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/entries/a.js" afterPath="$PROJECT_DIR$/src/entries/a.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/entries/b.js" afterPath="$PROJECT_DIR$/src/entries/b.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/entries/comm.js" afterPath="$PROJECT_DIR$/src/entries/comm.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/entries/modules/footer.js" afterPath="$PROJECT_DIR$/src/entries/modules/footer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/entries/modules/header.js" afterPath="$PROJECT_DIR$/src/entries/modules/header.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/entries/subdir/a.js" afterPath="$PROJECT_DIR$/src/entries/subdir/a.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/entries/subdir/comm.js" afterPath="$PROJECT_DIR$/src/entries/subdir/comm.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/entries/subdir/index.js" afterPath="$PROJECT_DIR$/src/entries/subdir/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/entries/subdir/modules/subdir-m.js" afterPath="$PROJECT_DIR$/src/entries/subdir/modules/subdir-m.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/templates/_block/footer.ejs" afterPath="$PROJECT_DIR$/src/templates/_block/footer.ejs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/templates/_block/header.ejs" afterPath="$PROJECT_DIR$/src/templates/_block/header.ejs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/templates/a.ejs" afterPath="$PROJECT_DIR$/src/templates/a.ejs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/templates/b.ejs" afterPath="$PROJECT_DIR$/src/templates/b.ejs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/templates/c.ejs" afterPath="$PROJECT_DIR$/src/templates/c.ejs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/templates/subdir/a.ejs" afterPath="$PROJECT_DIR$/src/templates/subdir/a.ejs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/templates/subdir/index.ejs" afterPath="$PROJECT_DIR$/src/templates/subdir/index.ejs" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/templates/modules/footer.ejs" afterPath="$PROJECT_DIR$/src/templates/_block/footer.ejs" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/templates/modules/header.ejs" afterPath="$PROJECT_DIR$/src/templates/_block/header.ejs" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/entries/modules/footer.js" afterPath="$PROJECT_DIR$/src/entries/_block/footer.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/entries/modules/header.js" afterPath="$PROJECT_DIR$/src/entries/_block/header.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/entries/subdir/modules/subdir-m.js" afterPath="$PROJECT_DIR$/src/entries/subdir/_block/subdir-m.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -48,7 +45,7 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -60,6 +57,8 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/build/utils.js" />
         <option value="$PROJECT_DIR$/config/index.js" />
+        <option value="$PROJECT_DIR$/src/entries/a.js" />
+        <option value="$PROJECT_DIR$/src/entries/subdir/index.js" />
       </list>
     </option>
   </component>
@@ -103,6 +102,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -148,6 +149,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="entries" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webpack-multipage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webpack-multipage" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="entries" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="subdir" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -217,14 +240,12 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="Settings.JavaScript" />
     <property name="WebServerToolWindowFactoryState" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../homejc001-cloud" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="X:\workspace\gson\webpack-multipage\node_modules\eslint" />
     <property name="node.js.path.for.package.standard" value="project" />
@@ -334,18 +355,19 @@
       <updated>1502270191779</updated>
       <workItem from="1502270193372" duration="3498000" />
       <workItem from="1504149990843" duration="2026000" />
-      <workItem from="1504159979779" duration="808000" />
+      <workItem from="1504159979779" duration="1538000" />
+      <workItem from="1504162301136" duration="264000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6332000" />
+    <option name="totallyTimeSpent" value="7326000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="34" y="10" width="1547" height="837" extended-state="0" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25622058" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25958306" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -380,7 +402,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="558">
           <caret line="31" column="29" lean-forward="false" selection-start-line="31" selection-start-column="29" selection-end-line="31" selection-end-column="29" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -419,16 +440,29 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/templates/a.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build/utils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="31" column="29" lean-forward="false" selection-start-line="31" selection-start-column="29" selection-end-line="31" selection-end-column="29" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/entries/a.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="18">
+          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#0#41#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -441,7 +475,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/templates/a.ejs">
+    <entry file="file://$PROJECT_DIR$/src/entries/subdir/a.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -449,18 +483,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/index.js">
+    <entry file="file://$PROJECT_DIR$/src/entries/subdir/comm.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="22" column="54" lean-forward="true" selection-start-line="22" selection-start-column="54" selection-end-line="22" selection-end-column="54" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/build/utils.js">
+    <entry file="file://$PROJECT_DIR$/src/entries/subdir/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="31" column="29" lean-forward="false" selection-start-line="31" selection-start-column="29" selection-end-line="31" selection-end-column="29" />
+        <state relative-caret-position="54">
+          <caret line="3" column="19" lean-forward="true" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="8" column="10" lean-forward="true" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
           <folding />
         </state>
       </provider>
