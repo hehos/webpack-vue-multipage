@@ -4,7 +4,7 @@ var path = require('path')
 module.exports = {
   entryPath: path.resolve(__dirname, '../src/entries'),
   tplPath: path.resolve(__dirname, '../src/templates'),
-  ignore: 'modules',
+  ignore: '_block',
   commFileName: 'comm',
   build: {
     env: require('./prod.env'),
