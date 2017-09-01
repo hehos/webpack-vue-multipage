@@ -1,4 +1,4 @@
-# webpack-demo2
+# webpack-vue-multipage
 
 > 测试webpack多页应用
 
