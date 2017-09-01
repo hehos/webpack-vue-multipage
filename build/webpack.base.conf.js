@@ -8,6 +8,11 @@ function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
+var plugins = [];
+// 处理雪碧图插件
+plugins.concat(utils.spritePlugin);
+
+
 module.exports = {
   entry: utils.getEntries(),
   output: {
@@ -60,5 +65,6 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  plugins: plugins
 }

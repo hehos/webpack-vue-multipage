@@ -1,6 +1,16 @@
-/**
- * Created by hehui on 2017/6/16.
- */
-// import './comm'
+import Vue from 'vue';
+import router from '../router';
 
-console.log('aaaa')
+import 'mint-ui/lib/style.css';
+
+import MintUI from 'mint-ui';
+Vue.use(MintUI);
+
+import ModuleA from '../pages/module-a.vue'
+
+new Vue({
+  el: '#page-a',
+  router,
+  template: '<ModuleA/>',
+  components: { ModuleA }
+})

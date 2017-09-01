@@ -1,5 +1,6 @@
 var path = require('path');
 var glob = require('glob');
+var SpritesmithPlugin = require('webpack-spritesmith'); // 处理雪碧图
 var config = require('../config');
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -184,4 +185,55 @@ exports.htmlPlugins = function () {
     plugins.push(plugin);
   })
   return plugins;
+}
+
+// 处理雪碧图插件
+exports.spritePlugin = function () {
+  var myicons = glob.sync('src/img/myicon/*');
+  if(myicons.length !==0) {
+    return new SpritesmithPlugin({
+      src: {
+        cwd: path.resolve(__dirname, '../src/img/myicon'),
+        glob: '*.png'
+      },
+      target: {
+        image: path.resolve(__dirname, '../src/img/sprite.png'),
+        // css: path.resolve(__dirname, 'src/assets/sprite.css')
+        css: [[
+          path.resolve(__dirname, '../src/scss/_block/_sprite.scss'),
+          { format: 'custom_template' }
+        ]]
+      },
+      apiOptions: {
+        cssImageRef: '../img/sprite.png'
+      },
+      spritesmithOptions: {
+        algorithm: 'binary-tree'
+      },
+      customTemplates: {
+        'custom_template': function (data) {
+          var shared = [
+            '[class^="myicon-"], [class*=" myicon-"] {',
+            // '  display: inline-block;',
+            // '  vertical-align: middle;',
+            '  background-image: url(I);',
+            '}'].join("")
+            .replace('I', data.sprites[0].image);
+
+          var perSprite = data.sprites.map(function (sprite) {
+            return '.myicon-N { width: Wpx; height: Hpx; background-position: Xpx Ypx; }'
+              .replace('N', sprite.name)
+              .replace('W', sprite.width)
+              .replace('H', sprite.height)
+              .replace('X', sprite.offset_x)
+              .replace('Y', sprite.offset_y);
+          }).join('\n');
+
+          return shared + '\n' + perSprite;
+        }
+      }
+    });
+  } else {
+    return [];
+  }
 }
