@@ -55,12 +55,12 @@ http://192.168.0.188:3000/a.html#/module-a/page1
 
 ## 如何使用
 
-* 创建入口文件（entries目录）和模板文件（templates）
+创建入口文件（entries目录）和模板文件（templates）
 > 入口文件与模板文件对应关系： 
 > * 一一对应：一个入口文件一个模板文件。
 > * 一对多：一个入口文件对应多个模板文件。
 
-* 配置相关全局变量
+配置相关全局变量
 > 变量值可以自定义
 ```
 # config/index.js 中配置如下变量
@@ -78,7 +78,7 @@ ignore: '_block'
 commFileName: 'comm'
 ```
 
-* 创建vue单文件目录
+创建vue单文件目录
 > * 存放vue单文件组件，局部使用单页应用
 > * 也可以加入vue-router，vuex等
 > * 局部单页应用同存vue单页应用相同
