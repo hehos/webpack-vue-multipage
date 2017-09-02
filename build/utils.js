@@ -156,7 +156,7 @@ exports.htmlPlugins = function () {
     console.log(name + ':')
     console.log(chunks);
 
-    // 每个页面生成一个html
+    // 每个模板生成一个 HtmlWebpackPlugin插件配置
     var plugin = new HtmlWebpackPlugin({
       // 生成出来的html文件名
       filename: name + '.html',
