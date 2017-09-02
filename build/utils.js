@@ -108,6 +108,7 @@ function getFiles(cwd, fileType, ignore) {
         .split('/');
     let len = nameAry.length;
 
+    // 如果为公共文件名或子目录同名时，对应关系为：{ 子目录名：路径 }或者{子目录名/子目录名(n个)/文件名：路径}
     if(len !== 1
       && (nameAry[len-1] === nameAry[len-2]
       || nameAry[len-1] === config.commFileName)) {
