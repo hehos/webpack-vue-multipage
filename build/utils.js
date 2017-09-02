@@ -98,7 +98,6 @@ function getFiles(cwd, fileType, ignore) {
     }),
     filesJson = {};
 
-  console.log(files);
   files.forEach(function(filepath) {
 
     var name = '';
@@ -122,7 +121,6 @@ function getFiles(cwd, fileType, ignore) {
     filesJson[name] = `${cwd}/${filepath}`;;
   });
 
-  console.log(filesJson);
   return filesJson;
 }
 
@@ -135,27 +133,47 @@ exports.getEntries = function () {
 exports.htmlPlugins = function () {
   var tplObj = getFiles(config.tplPath, 'ejs', config.ignore);
   var entries = getFiles(config.entryPath, 'js', config.ignore);
+
+  console.log('模板文件：');
+  console.log(tplObj);
+  console.log('入口文件：');
+  console.log(entries);
   var plugins = [];
+
+  console.log('模板文件注入的入口文件情况');
   Object.keys(tplObj).forEach(function(name) {
     var chunks = [];
     if(process.env.NODE_ENV === 'production') {
       chunks = chunks.concat(['vendor', 'manifest']);
     }
     chunks.push(config.commFileName);
-    // 允许多个模板文件对应同一入口文件
-    Object.keys(entries).forEach(function (name2) {
-      if(name.includes(name2) && name2 !== name) {
-        chunks.push(name2);
-      }
-    })
-    Object.keys(entries).forEach(function (name2) {
-      if(name2 === name) {
+    /**
+     * 1, 允许多个模板文件对应同一入口文件
+     * 2, 排序entrieKeys保证入口文件的顺序，如
+     * @type {Array.<*>}
+     */
+    var entrieKeys = Object.keys(entries).sort(function (key1, key2) {
+      return key1.length - key2.length;
+    });
+    entrieKeys.forEach(function (name2) {
+      if(name.split('/').length > 1 && name.length > name2.length && name !== name2) {
+        var nameAry = name.split('/');
+        var name2Ary = name2.split('/');
+        var i = 0;
+        for(i = 0; i < name2Ary.length; i++) {
+          if(nameAry[i] !== name2Ary[i]) {
+            return;
+          }
+        }
+        if(i === name2Ary.length) {
+          chunks.push(name2);
+        }
+      } else if(name === name2) {
         chunks.push(name2);
       }
     })
 
-    console.log(name + ':')
-    console.log(chunks);
+    console.log(name + '：' + JSON.stringify(chunks));
 
     // 每个模板生成一个 HtmlWebpackPlugin插件配置
     var plugin = new HtmlWebpackPlugin({
@@ -168,6 +186,7 @@ exports.htmlPlugins = function () {
       // 每个html引用的js模块，也可以在这里加上vendor等公用模块
       // chunks: ['manifest', 'vendor', name]
       chunks: chunks,
+      // 排序，按照数组下标排序
       chunksSortMode: function (chunk1, chunk2) {
         var order = chunks;
         var order1 = order.indexOf(chunk1.names[0]);

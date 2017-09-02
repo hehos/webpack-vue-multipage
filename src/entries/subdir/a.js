@@ -1,6 +1,6 @@
 /**
  * Created by hehui on 2017/6/19.
  */
-// import '../comm'
+import '../../scss/subdir/a.scss'
 
 console.log('subpage a');

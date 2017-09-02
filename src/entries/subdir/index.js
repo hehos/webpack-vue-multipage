@@ -4,5 +4,6 @@
 // import '../comm'
 
 
+import '../../scss/subdir/index.scss'
 
 console.log('subpage index');
