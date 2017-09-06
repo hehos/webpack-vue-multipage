@@ -1,17 +1,13 @@
 var path = require('path')
 var glob = require('glob');
 var utils = require('./utils')
+var SpritesmithPlugin = require('webpack-spritesmith'); // 处理雪碧图
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
-
-var plugins = [];
-// 处理雪碧图插件
-plugins.concat(utils.spritePlugin);
-
 
 module.exports = {
   entry: utils.getEntries(),
@@ -66,5 +62,8 @@ module.exports = {
       }
     ]
   },
-  plugins: plugins
+  plugins: [
+    // 处理雪碧图插件
+    ...(utils.spritePlugin())
+  ]
 }

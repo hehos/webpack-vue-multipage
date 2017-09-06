@@ -149,7 +149,7 @@ exports.htmlPlugins = function () {
     chunks.push(config.commFileName);
     /**
      * 1, 允许多个模板文件对应同一入口文件
-     * 2, 排序entrieKeys保证入口文件的顺序，如
+     * 2, 排序entrieKeys保证入口文件的顺序，如subdir应该在subdir/a前面
      * @type {Array.<*>}
      */
     var entrieKeys = Object.keys(entries).sort(function (key1, key2) {
@@ -195,7 +195,7 @@ exports.htmlPlugins = function () {
       },
       // 发布模式打包
       minify: process.env.NODE_ENV === 'production'
-        && config.build.htmlMinify
+      && config.build.htmlMinify
         ? {
           removeComments: true,
           collapseWhitespace: false,
@@ -209,9 +209,10 @@ exports.htmlPlugins = function () {
 
 // 处理雪碧图插件
 exports.spritePlugin = function () {
-  var myicons = glob.sync('src/img/myicon/*');
+  var myicons = glob.sync(path.resolve(__dirname, '../src/img/myicon/*'));
+  var plugins = []
   if(myicons.length !==0) {
-    return new SpritesmithPlugin({
+    plugins.push(new SpritesmithPlugin({
       src: {
         cwd: path.resolve(__dirname, '../src/img/myicon'),
         glob: '*.png'
@@ -252,8 +253,7 @@ exports.spritePlugin = function () {
           return shared + '\n' + perSprite;
         }
       }
-    });
-  } else {
-    return [];
+    }));
   }
+  return plugins;
 }
