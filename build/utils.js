@@ -144,7 +144,7 @@ exports.htmlPlugins = function () {
   Object.keys(tplObj).forEach(function(name) {
     var chunks = [];
     if(process.env.NODE_ENV === 'production') {
-      chunks = chunks.concat(['vendor', 'manifest']);
+      chunks = chunks.concat(['manifest', 'vendor']);
     }
     chunks.push(config.commFileName);
     /**
