@@ -177,8 +177,8 @@ exports.htmlPlugins = function () {
 
     // 每个模板生成一个 HtmlWebpackPlugin插件配置
     var plugin = new HtmlWebpackPlugin({
-      // 生成出来的html文件名
-      filename: name + '.html',
+      // 将html文件放入html目录中
+      filename: (process.env.NODE_ENV === 'production'? 'html/': '') + name + '.html',
       // 每个html的模版
       template: tplObj[name],
       // 自动将引用插入html

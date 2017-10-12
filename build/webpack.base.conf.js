@@ -1,5 +1,6 @@
 var path = require('path')
 var glob = require('glob');
+var webpack = require('webpack')
 var utils = require('./utils')
 var SpritesmithPlugin = require('webpack-spritesmith'); // 处理雪碧图
 var config = require('../config')
@@ -22,7 +23,8 @@ module.exports = {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
-      '@': resolve('src')
+      '@': resolve('src'),
+      // 'jq': resolve('') + '/static/vendors/jquery-3.2.1.min.js'
     }
   },
   module: {
@@ -63,7 +65,18 @@ module.exports = {
     ]
   },
   plugins: [
+    // webpack 环境全局变量，这里 $ 是全局的，不需要 require('jquery')
+    new webpack.ProvidePlugin({
+      // $: "jq"
+    }),
+
     // 处理雪碧图插件
     ...(utils.spritePlugin())
-  ]
+  ],
+  // 浏览器环境的全局变量
+  // 防止将某些 import 的包(package)打包到 bundle 中，而是在运行时(runtime)再去从外部获取这些扩展依赖
+  // 详情：https://doc.webpack-china.org/configuration/externals/
+  externals: {
+    // $: "window.jquery"
+  },
 }
