@@ -5,9 +5,11 @@
     <h1>{{title}}</h1>
     <p>{{intro}}</p>
 
-    <mt-cell :to="{name: 'moduleAIndex'}" title="module-a index.vue" is-link>
+    <mt-cell :to="{name: 'moduleAIndex'}"
+             title="module-a index.vue" is-link>
     </mt-cell>
-    <mt-cell :to="{name: 'moduleAPage1'}" title="module-a page1.vue" is-link>
+    <mt-cell :to="{name: 'moduleAPage1'}"
+             title="module-a page1.vue" is-link>
     </mt-cell>
 
     <br>

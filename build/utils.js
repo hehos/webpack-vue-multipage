@@ -24,7 +24,7 @@ exports.cssLoaders = function (options) {
   }
 
   // generate loader string to be used with extract text plugin
-  function generateLoaders (loader, loaderOptions) {
+  function generateLoaders(loader, loaderOptions) {
     var loaders = [cssLoader]
     if (loader) {
       loaders.push({
@@ -52,7 +52,7 @@ exports.cssLoaders = function (options) {
     css: generateLoaders(),
     postcss: generateLoaders(),
     less: generateLoaders('less'),
-    sass: generateLoaders('sass', { indentedSyntax: true }),
+    sass: generateLoaders('sass', {indentedSyntax: true}),
     scss: generateLoaders('sass'),
     stylus: generateLoaders('stylus'),
     styl: generateLoaders('stylus')
@@ -98,27 +98,71 @@ function getFiles(cwd, fileType, ignore) {
     }),
     filesJson = {};
 
-  files.forEach(function(filepath) {
+  files.forEach(function (filepath) {
 
     var name = '';
 
-    var nameAry =
-      filepath.substring(0, filepath.search(/\.(\w)+/))
-        .split('/');
+    var nameStr =
+      filepath.substring(0, filepath.search(/\.(\w)+/)); // 去掉文件类型后缀
+
+    var nameAry = nameStr.split('/');
     let len = nameAry.length;
 
-    // 如果为公共文件名或子目录同名时，对应关系为：{ 子目录名：路径 }或者{子目录名/子目录名(n个)/文件名：路径}
-    if(len !== 1
-      && (nameAry[len-1] === nameAry[len-2]
-      || nameAry[len-1] === config.commFileName)) {
+    /**
+     * 先检测入口路径和模板路径（以下简称路径）下的目录命名和文件名是否合法
+     * 不合法的情况如下:
+     * 1，config.commFileName不能为 ’index‘
+     * 2，目录不能跟 config.commFileName 配置的同名
+     * 3，目录名为 index 时，里面不能包含跟 config.commFileName 配置的同名的文件
+     */
+
+    // config.commFileName不能为 ’index‘
+    if(config.commFileName === 'index') {
+      throw new Error('config.commFileName配置名不能为："index"');
+    }
+
+    // 检测 与 config.commFileName 配置的同名目录
+    var tempNameAry = JSON.parse(JSON.stringify(nameAry));
+    tempNameAry.pop();
+    if (tempNameAry.includes(config.commFileName.trim())) {
+      throw new Error('入口路径和模板路径（以下简称路径）下的目录命名不能为config.commFileName(即当前的：'
+        + config.commFileName + ')');
+    }
+
+    // 检测 目录名为 index 时，里面不能包含与 config.commFileName 配置的同名的文件
+    if (len > 1 && nameAry[len - 1] === config.commFileName && nameAry[len - 2] === 'index') {
+      throw new Error('目录名为 index 时，里面不能包含跟 config.commFileName 配置的同名的文件(即当前的：'
+        + config.commFileName + ')');
+    }
+
+    /**
+     * 抽取局部公共入口文件
+     * 如：a.js 可以作为 多个名为a/*.ejs 模板的入口文件
+     * 抽取规则:
+     * 1，首先是路径下的非一级文件
+     * 2，其次，满足以下条件时抽取为局部公共文件
+     *    1)，文件名==所在目录名同名（但不能为index）或者
+     *    2)，文件名==config.commFileName
+     * 3，抽取的局部公共文件名和路径对应为：
+     *    { 子目录名：路径 }或者{子目录名/子目录名(n个)/文件名：路径}
+     */
+
+    if (len !== 1
+      && (
+        ((nameAry[len - 1] === nameAry[len - 2])
+        && nameAry[len - 1] !== 'index')
+        || nameAry[len - 1] === config.commFileName
+      )) {
       nameAry.pop();
     }
+
     nameAry.forEach(function (path) {
       name += path + '/';
     });
     name = name.substring(0, name.length - 1);
 
-    filesJson[name] = `${cwd}/${filepath}`;;
+    filesJson[name] = `${cwd}/${filepath}`;
+    ;
   });
 
   return filesJson;
@@ -141,9 +185,9 @@ exports.htmlPlugins = function () {
   var plugins = [];
 
   console.log('模板文件注入的入口文件情况');
-  Object.keys(tplObj).forEach(function(name) {
+  Object.keys(tplObj).forEach(function (name) {
     var chunks = [];
-    if(process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV === 'production') {
       chunks = chunks.concat(['manifest', 'vendor']);
     }
     chunks.push(config.commFileName);
@@ -156,19 +200,20 @@ exports.htmlPlugins = function () {
       return key1.length - key2.length;
     });
     entrieKeys.forEach(function (name2) {
-      if(name.split('/').length > 1 && name.length > name2.length && name !== name2) {
+      if (name.split('/').length > 1 && name.length > name2.length) {
         var nameAry = name.split('/');
         var name2Ary = name2.split('/');
         var i = 0;
-        for(i = 0; i < name2Ary.length; i++) {
-          if(nameAry[i] !== name2Ary[i]) {
-            return;
+        //
+        for (i = 0; i < name2Ary.length; i++) {
+          if (nameAry[i] !== name2Ary[i]) {
+            break;
           }
         }
-        if(i === name2Ary.length) {
+        if (i === name2Ary.length) {
           chunks.push(name2);
         }
-      } else if(name === name2) {
+      } else if (name === name2) {
         chunks.push(name2);
       }
     })
@@ -178,7 +223,7 @@ exports.htmlPlugins = function () {
     // 每个模板生成一个 HtmlWebpackPlugin插件配置
     var plugin = new HtmlWebpackPlugin({
       // 将html文件放入html目录中
-      filename: (process.env.NODE_ENV === 'production'? 'html/': '') + name + '.html',
+      filename: (process.env.NODE_ENV === 'production' ? 'html/' : '') + name + '.html',
       // 每个html的模版
       template: tplObj[name],
       // 自动将引用插入html
@@ -210,8 +255,8 @@ exports.htmlPlugins = function () {
 // 处理雪碧图插件
 exports.spritePlugin = function () {
   var myicons = glob.sync(path.resolve(__dirname, '../src/img/myicon/*'));
-  var plugins = []
-  if(myicons.length !==0) {
+  var plugins = [];
+  if (myicons.length !== 0) {
     plugins.push(new SpritesmithPlugin({
       src: {
         cwd: path.resolve(__dirname, '../src/img/myicon'),
@@ -222,7 +267,7 @@ exports.spritePlugin = function () {
         // css: path.resolve(__dirname, 'src/assets/sprite.css')
         css: [[
           path.resolve(__dirname, '../src/scss/_block/_sprite.scss'),
-          { format: 'custom_template' }
+          {format: 'custom_template'}
         ]]
       },
       apiOptions: {

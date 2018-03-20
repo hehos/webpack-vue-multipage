@@ -13,6 +13,13 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
+      path: '/',
+      name: 'index',
+      components: {
+        default: moduleAIndex
+      }
+    },
+    {
       path: '/module-a',
       name: 'moduleAIndex',
       components: {
